@@ -17,10 +17,15 @@ import sys
 import re
 from db_handler import DatabaseOperations
 
+# Creating instance of the class DatabaseOperations
 dbo = DatabaseOperations()
 
 
 class Table(QTableWidget):
+    """This class inherits the QTableWidget for convenience"""
+
+    __slots__ = "data"
+
     def __init__(self, data: list):
         super().__init__()
         self.data = data
@@ -44,11 +49,13 @@ class Table(QTableWidget):
 
 
 class MainWindow(QMainWindow):
+    """The app"""
+
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("SAMSA-verktyg")
+        self.setWindowTitle("Verktyg")
         self.setGeometry(0, 0, 800, 700)
-        self.setStyleSheet("background-color: rgb(250, 250, 250); border-bottom: 1px solid black")
+        self.setStyleSheet("background-color: rgb(250, 250, 250);")
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.stack = QStackedWidget()
         self.setCentralWidget(self.stack)
@@ -186,7 +193,7 @@ class MainWindow(QMainWindow):
         return page
 
     @staticmethod
-    def add_button_pressed(data: tuple, to_be_cleared):
+    def add_button_pressed(data: tuple, to_be_cleared: tuple):
         personal_nr = data[2]
         belonging_to = data[3]
         personal_nr_column = dbo.get_personal_numbers()
@@ -217,7 +224,7 @@ class MainWindow(QMainWindow):
         widget.clear()
 
     @staticmethod
-    def update_button_pressed(data: tuple, to_be_cleared):
+    def update_button_pressed(data: tuple, to_be_cleared: tuple):
         target_col, new_value, personal_nr = data
         personal_nr_column = dbo.get_personal_numbers()
         personal_nrs = [item[0] for item in personal_nr_column]
